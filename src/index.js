@@ -32,6 +32,11 @@ app.use((err, req, res, next) => {
     },
   });
 });
+
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Hello world!" });
+});
+
 app.listen(PORT, async () => {
   console.log(`Listening on ${PORT}`);
   await mongoose.connect(DATABASE, {
