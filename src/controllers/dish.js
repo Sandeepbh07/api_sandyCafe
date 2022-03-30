@@ -19,7 +19,7 @@ exports.createDish = async (req, res, next) => {
     savePhoto(dish, photo);
     const newDish = await dish.save();
     newDish.photo = undefined;
-    res.status(201).json(newDish);
+    return res.status(201).json(newDish);
   } catch (error) {
     if (error.isJoi === true) {
       error.status = 422;
@@ -70,7 +70,7 @@ exports.getDishPhoto = async (req, res) => {
   const dish = req.dish;
   if (dish.photo.data) {
     res.set("Content-Type", dish.photo.contentType);
-    res.send(dish.photo.data);
+    return res.send(dish.photo.data);
   } else {
     return res.status(204).json({ message: "No data found" });
   }
