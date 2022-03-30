@@ -10,12 +10,11 @@ exports.fetchAllCategories = async (req, res, next) => {
       next(createError(404, "No categories found"));
       return;
     }
-    res.status(200).json(result);
+    return res.status(200).json(result);
   } catch (err) {
     console.log(err);
     next(err);
   }
-  res.status(200).json({ message: "OK" });
 };
 
 exports.createCategory = async (req, res, next) => {
@@ -24,7 +23,7 @@ exports.createCategory = async (req, res, next) => {
     const category = new Category(result);
     category.addedBy = "sandy";
     await category.save();
-    res.status(201).json(category);
+    return res.status(201).json(category);
   } catch (error) {
     if (error.isJoi === true) error.status = 422;
     if (error.message.includes("E11000")) {
@@ -53,5 +52,5 @@ exports.getCategoryId = async (req, res, next, id) => {
 };
 
 exports.getCategory = async (req, res) => {
-  res.status(200).json(req.category);
+  return res.status(200).json(req.category);
 };
