@@ -76,6 +76,25 @@ exports.getDishPhoto = async (req, res) => {
   }
 };
 
+exports.searchByCategory = async (req, res, next) => {
+  let { categories } = req.body;
+
+  let criteria = {};
+  try {
+    if (categories.length === 0) {
+      return createError(404, "No categories specified");
+    }
+    criteria = { category: { $in: categories } };
+
+    const result = await Dish.find(criteria)
+      .select("-photo")
+      .populate("category", "_id name");
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 function savePhoto(dish, photo) {
   if (photo != null && imageTypes.includes(photo.type)) {
     dish.photo.data = new Buffer.from(photo.data, "base64");
