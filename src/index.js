@@ -6,6 +6,7 @@ const createError = require("http-errors");
 require("dotenv").config();
 const categoryRoutes = require("./routes/category");
 const dishRoutes = require("./routes/dish");
+const userRoutes = require("./routes/user");
 const app = express();
 
 var corsOptions = { origin: process.env.CORS_ORIGIN };
@@ -22,6 +23,7 @@ const PREFIX = "/" + process.env.PREFIX;
 
 app.use(PREFIX, categoryRoutes);
 app.use(PREFIX, dishRoutes);
+app.use(PREFIX, userRoutes);
 
 app.use(async (req, res, next) => {
   next(createError.NotFound());
